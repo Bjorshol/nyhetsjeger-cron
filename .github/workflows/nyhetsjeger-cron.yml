@@ -1,0 +1,38 @@
+name: Nyhetsjeger daily cron
+
+on:
+  schedule:
+    # GitHub Actions kjører i UTC, så vi trekker 1 time fra norsk tid (vintertid)
+    - cron: "55 4 * * *"   # 05:55 Oslo -> 04:55 UTC
+    - cron: "0 5 * * *"    # 06:00 Oslo -> 05:00 UTC
+  workflow_dispatch:
+
+jobs:
+  hnt-postliste:
+    if: github.event.schedule == '55 4 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping hnt_postliste (discover PDFs)
+        run: |
+          curl -sS -X POST "https://<PROJECT_REF>.functions.supabase.co/hnt_postliste" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json"
+      - name: Log time
+        run: date -u
+
+  hnt-parse:
+    if: github.event.schedule == '0 5 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping hnt_parse (download & parse to entries)
+        run: |
+          curl -sS -X POST "https://<PROJECT_REF>.functions.supabase.co/hnt_parse" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json"
+      - name: Log time
+        run: date -u
+    env:
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+env:
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
