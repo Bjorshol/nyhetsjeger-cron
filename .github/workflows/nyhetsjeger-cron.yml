@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Ping hnt_postliste (discover PDFs)
         run: |
-          curl -sS -X POST "https://<PROJECT_REF>.functions.supabase.co/hnt_postliste" \
-            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+          curl -sS -X POST "https://votqycajyxathlonvddk.functions.supabase.co/hnt_postliste" \
+            -H "Authorization: Bearer $eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvdHF5Y2FqeXhhdGhsb252ZGRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Nzc5NzcyNywiZXhwIjoyMDczMzczNzI3fQ.5j2QnpI-MAob8CXLum2W3SjzqWX470CEdT3sGBM5uI8" \
             -H "Content-Type: application/json"
       - name: Log time
         run: date -u
@@ -26,8 +26,8 @@ jobs:
     steps:
       - name: Ping hnt_parse (download & parse to entries)
         run: |
-          curl -sS -X POST "https://<PROJECT_REF>.functions.supabase.co/hnt_parse" \
-            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+          curl -sS -X POST "https://votqycajyxathlonvddk.functions.supabase.co/hnt_parse" \
+            -H "Authorization: Bearer $eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvdHF5Y2FqeXhhdGhsb252ZGRrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Nzc5NzcyNywiZXhwIjoyMDczMzczNzI3fQ.5j2QnpI-MAob8CXLum2W3SjzqWX470CEdT3sGBM5uI8" \
             -H "Content-Type: application/json"
       - name: Log time
         run: date -u
